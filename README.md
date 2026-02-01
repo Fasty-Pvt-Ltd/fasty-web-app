@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Fasty Web App
+
+A local e-commerce web application designed to operate within a hostel environment.  
+The focus is on fast iteration, reliability, and a clean developer experience.
+
+---
+
+## Tech Stack
+
+- **Framework:** Next.js (App Router)
+- **Language:** TypeScript
+- **Styling:** shadcn/ui + Tailwind CSS
+- **Backend:** Supabase (Auth + Database)
+- **Testing:** Vitest + Testing Library
+- **Linting & Formatting:** ESLint + Prettier
+- **CI/CD:** GitHub Actions + Vercel
+
+---
+
+## Project Status
+
+🚧 **Early development / MVP phase**
+
+Core infrastructure and developer tooling are set up.  
+Product features are under active development.
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js ≥ 18
+- npm
+
+### Install Dependencies
+
+```bash
+npm install
+```
+
+### Run the Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The app will be available at `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Available Scripts
 
-## Learn More
+```bash
+npm run dev        # Start development server
+npm run lint       # Run ESLint
+npm run format     # Format code using Prettier
+npm run typecheck  # Run TypeScript type checking
+npm run test       # Run tests in watch mode
+npm run test:run   # Run tests once (CI)
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Repository Workflow
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `main` is a protected branch
+- Direct pushes to `main` are not allowed
+- All changes go through Pull Requests
+- CI must pass and code owner approval is required
 
-## Deploy on Vercel
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for detailed guidelines.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Security
+
+If you discover a security issue, please do not open a public GitHub issue.  
+Refer to [`SECURITY.md`](SECURITY.md) for responsible disclosure instructions.
+
+---
+
+## License
+
+This project is licensed under the terms of the [`LICENSE`](LICENSE) file.
