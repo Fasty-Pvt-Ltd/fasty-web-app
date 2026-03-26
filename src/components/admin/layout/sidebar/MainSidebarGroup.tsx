@@ -24,14 +24,14 @@ const MainSidebarGroup = ({ items }: MainSidebarGroupProps) => {
 		<SidebarGroup>
 			<SidebarGroupContent className="flex flex-col gap-2">
 				<SidebarMenu>
-					{items.map((item) => (
-						<SidebarMenuItem key={item.title}>
-							<Link href={item.url} onClick={() => setOpenMobile(false)}>
+					{items.map(({ title, url }) => (
+						<SidebarMenuItem key={title}>
+							<Link href={url} onClick={() => setOpenMobile(false)}>
 								<SidebarMenuButton
-									tooltip={item.title}
-									isActive={item.url.split('/')[2] === segment}
+									tooltip={title}
+									isActive={url.split('/')[2] === segment}
 								>
-									<span>{item.title}</span>
+									<span>{title}</span>
 								</SidebarMenuButton>
 							</Link>
 						</SidebarMenuItem>
