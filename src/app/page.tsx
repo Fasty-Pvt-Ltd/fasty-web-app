@@ -1,19 +1,18 @@
-'use client';
+import { Suspense } from 'react';
+import { getProducts } from '@/services/product.service';
+import ProductGrid from '@/components/products/ProductGrid';
+import SheetSide from '@/components/cart/CartSheet';
 
-import { SignInButton, SignOutButton, useUser } from '@clerk/nextjs';
-import Link from 'next/link';
-import { Separator } from '@/components/ui/separator';
-
-const Home = () => {
-	const { isLoaded, isSignedIn } = useUser();
+export default async function HomePage() {
+	const products = await getProducts();
 
 	return (
-		<div>
-			<Link href="/admin/inventory">admin</Link>
-			<Separator />
-			{isLoaded ? isSignedIn ? <SignOutButton /> : <SignInButton /> : 'Loading...'}
-		</div>
-	);
-};
+		<Suspense fallback={<div>Loading...</div>}>
+			<div className="p-10 flex flex-col items-center gap-10">
+				<SheetSide />
+			</div>
 
-export default Home;
+			<ProductGrid products={products} />
+		</Suspense>
+	);
+}

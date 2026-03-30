@@ -1,11 +1,11 @@
 import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
 import SyncClerkWithSupabase from '@/components/auth/SyncClerkWithSupabase';
-export default function RootLayout({
-	children,
-}: Readonly<{
-	children: React.ReactNode;
-}>) {
+import Navbar from '@/components/navbar/Navbar';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en">
 			<body>
@@ -25,7 +25,10 @@ export default function RootLayout({
 					}}
 				>
 					<SyncClerkWithSupabase />
+					<Navbar />
 					{children}
+					<Analytics />
+					<SpeedInsights />
 				</ClerkProvider>
 			</body>
 		</html>
