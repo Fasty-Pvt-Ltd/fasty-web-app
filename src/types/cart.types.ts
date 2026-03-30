@@ -6,3 +6,9 @@ export interface Item {
 	quantity: number;
 	stock: number;
 }
+export interface Cart {
+	items: Item[];
+	addItem: (item: Item) => void;
+	removeItem: (id: string) => void;
+	updateQuantity: (id: string, quantity: number) => void;
+}
