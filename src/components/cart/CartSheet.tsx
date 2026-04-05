@@ -19,7 +19,7 @@ import { NoRefundNotice } from '../checkout/NoRefundNotice';
 import { CheckoutForm } from '../checkout/CheckOutForm';
 import CartButton from '../navbar/CartButton';
 
-export default function SheetSide() {
+export default function CartSheet() {
 	const {
 		sheetStatus,
 		setSheetStatus,
