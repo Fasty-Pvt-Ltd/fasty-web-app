@@ -14,4 +14,6 @@ export interface Cart {
 	updateQuantity: (id: string, quantity: number) => void;
 	clearCart: () => void;
 	getTotal: () => number;
+	getItemCount: () => number;
+	getItemQuantity: (id: string) => number;
 }

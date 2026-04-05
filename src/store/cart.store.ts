@@ -29,6 +29,11 @@ const useCartStore = create<Cart>()(
 				})),
 
 			getTotal: () => get().items.reduce((sum, item) => sum + item.price * item.quantity, 0),
+
+			getItemCount: () => get().items.reduce((sum, item) => sum + item.quantity, 0),
+
+			getItemQuantity: (id: string) =>
+				get().items.find((item) => item.product_id === id)?.quantity ?? 0,
 		}),
 		{
 			name: 'cart-storage',

@@ -4,12 +4,12 @@ import { ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import useCartStore from '@/store/cart.store';
-import { getItemsCount } from '@/utils/cart.utils';
 import { ComponentProps } from 'react';
 
 export default function CartButton({ ...props }: ComponentProps<typeof Button>) {
-	const { items } = useCartStore();
-	const itemCount = getItemsCount(items);
+	const itemCount = useCartStore((state) =>
+		state.items.reduce((sum, item) => sum + item.quantity, 0)
+	);
 
 	return (
 		<Button
