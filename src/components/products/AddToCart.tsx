@@ -3,16 +3,16 @@
 import { Button } from '@/components/ui/button';
 import useCartStore from '@/store/cart.store';
 import { Product } from '@/types/product.types';
-import { getItemQuantity } from '@/utils/cart.utils';
 import ProductQuantitySelector from '../shared/ProductQuantitySelector';
+import { useItemQuantity } from '@/store/cart.selectors';
 
 interface AddToCartProps {
 	product: Product;
 }
 
 export default function AddToCart({ product }: AddToCartProps) {
-	const { items, addItem } = useCartStore();
-	const quantity = getItemQuantity(product.id, items);
+	const { addItem } = useCartStore();
+	const quantity = useItemQuantity(product.id);
 	const { id, imageUrl, name, price, stock } = product;
 
 	const handleAddItem = () => {

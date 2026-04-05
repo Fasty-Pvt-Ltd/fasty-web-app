@@ -14,8 +14,8 @@ import { ROOM_NUMBERS } from '@/constants/allowedRooms';
 import { checkRoom } from '@/utils/checkout.utils';
 import { useUser } from '@clerk/nextjs';
 import { profileIdFromClerkId, PlaceOrder, insertOrderItems } from '@/services/checkout.services';
-import { billAmount, getItemsCount } from '@/utils/cart.utils';
 import useCartStore from '@/store/cart.store';
+import { useCartCount, useCartTotal } from '@/store/cart.selectors';
 
 const formSchema = z.object({
 	roomNo: z.enum(ROOM_NUMBERS),
@@ -43,6 +43,8 @@ export const CheckoutForm = ({
 	const [showConfirm, setShowConfirm] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const { items } = useCartStore();
+	const total = useCartTotal();
+	const itemsCount = useCartCount();
 
 	const form = useForm<FormData>({
 		resolver: zodResolver(formSchema),
@@ -70,7 +72,7 @@ export const CheckoutForm = ({
 		setLoading(true);
 		try {
 			const id = await profileIdFromClerkId(user.id);
-			const orderId = await PlaceOrder(pendingData.roomNo, id, billAmount(items));
+			const orderId = await PlaceOrder(pendingData.roomNo, id, total);
 			await Promise.all(
 				items.map(({ product_id, quantity, price }) =>
 					insertOrderItems(orderId, product_id, quantity, price, quantity * price)
@@ -134,7 +136,7 @@ export const CheckoutForm = ({
 							Order Summary
 						</DialogTitle>
 						<DialogDescription className="text-zinc-400 text-sm mt-1">
-							Room {pendingData?.roomNo} · {getItemsCount(items)} items
+							Room {pendingData?.roomNo} · {itemsCount} items
 						</DialogDescription>
 					</div>
 
@@ -142,9 +144,7 @@ export const CheckoutForm = ({
 					<div className="px-6 py-4 bg-zinc-50 border-t border-zinc-100">
 						<div className="flex justify-between items-center mt-2">
 							<span className="text-base font-bold text-zinc-900">Total Payable</span>
-							<span className="text-xl font-bold text-black">
-								₹{billAmount(items)}
-							</span>
+							<span className="text-xl font-bold text-black">₹{total}</span>
 						</div>
 					</div>
 
