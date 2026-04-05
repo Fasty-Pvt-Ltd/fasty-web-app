@@ -1,14 +1,14 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import { Cart, Item } from '../types/cart.types';
+import { Cart, CartItem } from '../types/cart.types';
 
 const useCartStore = create<Cart>()(
 	persist(
 		(set) => ({
 			items: [],
 
-			addItem: (item: Item) =>
+			addItem: (item: CartItem) =>
 				set((state) => ({
 					items: [...state.items, item],
 				})),
