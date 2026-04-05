@@ -13,7 +13,10 @@ interface CartSummaryProps {
 
 export default function CartSummary({ setSheetStatus }: CartSummaryProps) {
 	const { isSignedIn, isLoaded } = useUser();
-	const { getTotal } = useCartStore();
+
+	const total = useCartStore((state) =>
+		state.items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+	);
 
 	if (!isLoaded) return <CartSummarySkeleton />;
 
@@ -24,18 +27,22 @@ export default function CartSummary({ setSheetStatus }: CartSummaryProps) {
 					<Button
 						className="w-full h-15 flex items-center justify-between px-5"
 						onClick={() => setSheetStatus('checkout')}
+						disabled={total === 0}
 					>
 						<div className="flex flex-col text-white">
-							<span className="text-xl font-bold">₹{getTotal()}</span>
+							<span className="text-xl font-bold">₹{total}</span>
 							<span className="text-xs opacity-80">TOTAL</span>
 						</div>
 						<span className="text-lg font-semibold text-white">Proceed →</span>
 					</Button>
 				) : (
 					<SignInButton mode="modal">
-						<Button className="w-full h-15 flex items-center justify-between px-5">
+						<Button
+							className="w-full h-15 flex items-center justify-between px-5"
+							disabled={total === 0}
+						>
 							<div className="flex flex-col text-white">
-								<span className="text-xl font-bold">₹{getTotal()}</span>
+								<span className="text-xl font-bold">₹{total}</span>
 								<span className="text-xs opacity-80">TOTAL</span>
 							</div>
 							<span className="text-lg font-semibold text-white">Proceed →</span>
