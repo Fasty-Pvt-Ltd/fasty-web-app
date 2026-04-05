@@ -7,21 +7,19 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+	const { imageUrl, name, price, stock } = product;
+
 	return (
 		<Card className="overflow-hidden">
 			<CardContent className="p-3">
-				<img
-					src={product.imageUrl}
-					alt={product.name}
-					className="w-full h-40 object-cover rounded-md"
-				/>
+				<img src={imageUrl} alt={name} className="w-full h-40 object-cover rounded-md" />
 
-				<h2 className="mt-2 text-sm font-medium">{product.name}</h2>
+				<h2 className="mt-2 text-sm font-medium">{name}</h2>
 
 				<div className="mt-2 flex items-center justify-between">
-					<p className="text-sm text-muted-foreground">₹ {product.price}</p>
+					<p className="text-sm text-muted-foreground">₹ {price}</p>
 
-					<AddToCart product={product} stock={product.stock} />
+					<AddToCart product={product} stock={stock} />
 				</div>
 			</CardContent>
 		</Card>
