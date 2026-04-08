@@ -11,7 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 
 import { ROOM_NUMBERS } from '@/constants/allowedRooms';
-import { checkRoom } from '@/utils/checkout.utils';
+import { isRoomNoValid } from '@/utils/checkout.utils';
 import { useUser } from '@clerk/nextjs';
 import { profileIdFromClerkId, PlaceOrder, insertOrderItems } from '@/services/checkout.services';
 import useCartStore from '@/store/cart.store';
@@ -57,7 +57,7 @@ export const CheckoutForm = ({
 			setError('You must be logged in');
 			return;
 		}
-		if (!checkRoom(roomNo)) {
+		if (!isRoomNoValid(roomNo)) {
 			setError('Select a valid room');
 			return;
 		}
@@ -108,7 +108,7 @@ export const CheckoutForm = ({
 										placeholder="Enter room number"
 										onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 											field.onChange(e);
-											if (!checkRoom(e.target.value)) {
+											if (!isRoomNoValid(e.target.value)) {
 												setError('Select a valid room');
 												return;
 											}
