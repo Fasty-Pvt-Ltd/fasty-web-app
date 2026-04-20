@@ -121,9 +121,14 @@ export const CheckoutForm = ({
 						)}
 					/>
 
-					<Button type="submit" className="w-full">
-						Place Order
-					</Button>
+					<div className="space-y-2">
+						<Button type="submit" className="w-full">
+							Place Order
+						</Button>
+						<Button variant="outline" className="w-full">
+							Go Back
+						</Button>
+					</div>
 				</form>
 			</Form>
 
