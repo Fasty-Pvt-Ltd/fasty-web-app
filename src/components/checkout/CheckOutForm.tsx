@@ -19,10 +19,20 @@ import {
 	insertOrderItems,
 	revalidateProducts,
 } from '@/services/checkout.services';
+import { isUserAllowed } from '@/services/auth.services';
 import useCartStore from '@/store/cart.store';
 import { useCartCount, useCartTotal } from '@/store/cart.selectors';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import { LOCAL_STORAGE_KEYS } from '@/lib/constants';
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 const formSchema = z.object({
 	roomNo: z.enum(ROOM_NUMBERS),
@@ -48,6 +58,7 @@ export const CheckoutForm = ({
 	const { user } = useUser();
 	const [error, setError] = useState<string>('');
 	const [showConfirm, setShowConfirm] = useState(false);
+	const [showAlertDialog, setShowAlertDialog] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const { items } = useCartStore();
 	const total = useCartTotal();
@@ -89,7 +100,17 @@ export const CheckoutForm = ({
 	const handleConfirmOrder = async () => {
 		if (!pendingData || !user) return;
 		setLoading(true);
+
 		try {
+			const allowed = await isUserAllowed(user?.primaryEmailAddress?.emailAddress ?? '');
+
+			if (!allowed) {
+				setShowAlertDialog(true);
+				setShowConfirm(false);
+				setLoading(false);
+				return;
+			}
+
 			const id = await profileIdFromClerkId(user.id);
 			const orderId = await placeOrder(pendingData.roomNo, id, total);
 			await Promise.all(
@@ -97,12 +118,12 @@ export const CheckoutForm = ({
 					insertOrderItems(orderId, productId, quantity, price, quantity * price)
 				)
 			);
-			setPlacedOrderId(orderId); // ← save orderId
+			setPlacedOrderId(orderId);
 			setShowConfirm(false);
-			setOrderPlaced(true); // ← trigger success screen
+			setOrderPlaced(true);
 			setSheetStatus('order_placed');
-			await revalidateProducts(); // ← update products page with new stock
-		} catch (err) {
+			await revalidateProducts();
+		} catch {
 			setError('Something went wrong. Please try again.');
 			setShowConfirm(false);
 		} finally {
@@ -156,6 +177,23 @@ export const CheckoutForm = ({
 					</div>
 				</form>
 			</Form>
+
+			<AlertDialog open={showAlertDialog} onOpenChange={setShowAlertDialog}>
+				<AlertDialogContent>
+					<AlertDialogHeader>
+						<AlertDialogTitle>
+							Service Not Available To Your Hostel Yet
+						</AlertDialogTitle>
+						<AlertDialogDescription>
+							Our service is currently available in Ramanujan hostel only. In near
+							future, we will serve other hostels too.
+						</AlertDialogDescription>
+					</AlertDialogHeader>
+					<AlertDialogFooter>
+						<AlertDialogAction>OK</AlertDialogAction>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
 
 			{/* Confirmation Dialog */}
 			<Dialog open={showConfirm} onOpenChange={setShowConfirm}>
