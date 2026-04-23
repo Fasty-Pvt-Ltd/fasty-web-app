@@ -4,6 +4,12 @@ import SyncClerkWithSupabase from '@/components/auth/SyncClerkWithSupabase';
 import Navbar from '@/components/navbar/Navbar';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+	title: 'Fastyy',
+	description: 'Stationery items just one-click away',
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
