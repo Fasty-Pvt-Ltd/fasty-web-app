@@ -25,3 +25,17 @@ export const syncProfile = async ({
 
 	// TODO: Use some error logging system in the future
 };
+
+export const isUserAllowed = async (userEmail: string): Promise<boolean> => {
+	if (userEmail === '') return false;
+
+	const { data, error } = await supabase
+		.from('allowed_users')
+		.select()
+		.eq('email', '2500520100023@ietlucknow.ac.in');
+
+	if (error) return false;
+	if (!data) return false;
+	if (data.length === 0) return false;
+	return true;
+};

@@ -48,7 +48,14 @@ export function formatDeliverySlot(slotString: string): string {
 	const start12Hour = convert24to12(startHour);
 	const end12Hour = convert24to12(endHour);
 
-	return `${start12Hour}:${startMinStr} ${period} - ${end12Hour}:${endMinStr} ${period}`;
+	let period1 = '';
+	if (start12Hour === 11) {
+		period1 = 'PM';
+	} else {
+		period1 = period;
+	}
+
+	return `${start12Hour}:${startMinStr} ${period1} - ${end12Hour}:${endMinStr} ${period}`;
 }
 
 export function groupOrdersByDate(orders: Order[]): OrdersGroupedByDate[] {
