@@ -13,7 +13,7 @@ import ShowConfirm from './ShowConfirm';
 import Trigger from './Trigger';
 import PlaceOrder from './PlaceOrder';
 import ProductCardSkeleton from '../products/ProductCartSkeleton';
-import { Badge } from '../ui/badge';
+import Countdown from './Countdown';
 
 const AutoCad = () => {
 	const { user, isLoaded, isSignedIn } = useUser();
@@ -45,7 +45,10 @@ const AutoCad = () => {
 	}, [user, isSignedIn, isLoaded]);
 
 	useEffect(() => {
-		if (!user) return;
+		if (!user) {
+			setIsLoadingHasBought(false);
+			return;
+		}
 
 		const checkHasBought = async () => {
 			setIsLoadingHasBought(true);
@@ -106,9 +109,7 @@ const AutoCad = () => {
 
 	return (
 		<Card className="relative">
-			<Badge variant="destructive" className="absolute top-[-10] right-[-10]">
-				Limited Time Offer
-			</Badge>
+			{isLoaded && !isLoadingHasBought && <Countdown hasBought={hasBought} />}
 
 			<CardContent className="p-3">
 				<Image
